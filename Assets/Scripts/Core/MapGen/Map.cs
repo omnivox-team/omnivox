@@ -1,15 +1,19 @@
 using System;
-using System.Text; // include at the top
+using System.Text;
+using System.Collections.Generic;
 
+// A single map tile.
 public enum Cell
 {
     Empty,
+    // Solid object, can't be traversed.
     Wall
 }
 
+// Map allows to build and rebuild a labirinth of cells.
 public class Map {
-    int width {get;}
-    int height {get;}
+    public int width {get;}
+    public int height {get;}
     Cell[,] cells {get;}
 
     public Map(int w, int h)
@@ -25,6 +29,25 @@ public class Map {
         width = w;
         height = h;
         cells = new Cell[w, h];
+    }
+
+    // Sets cell values at (x, y).
+    public void Set(int x, int y, Cell cell)
+    {
+        cells[x, y] = cell;
+    }
+
+    // Returns all cells and their coordinates.
+    public IEnumerable<(int x, int y, Cell cell)> Cells()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                yield return (x, y, cells[x, y]);
+            }
+        }
+        yield break;
     }
 
     public override string ToString()
