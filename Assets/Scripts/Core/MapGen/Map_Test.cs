@@ -18,7 +18,8 @@ class MapTest
         ExpectThrow<ArgumentException>(()=>{
              var _ = new Map(-10, -10);
         });
-        var _ = new Map(10, 10);
+        var m = new Map(10, 10);
+        Console.WriteLine("{0}", m);
     }
 
 
