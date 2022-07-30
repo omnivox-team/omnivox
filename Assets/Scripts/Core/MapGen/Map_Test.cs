@@ -4,11 +4,33 @@ class MapTest
 {
     static void Main()
     {
-        TestBuild();
+        TestNew();
     }
 
-    static void TestBuild()
+    static void TestNew()
     {
-        var m = new Map();
+        ExpectThrow<ArgumentException>(()=>{
+             var _ = new Map(10, -10);
+        });
+        ExpectThrow<ArgumentException>(()=>{
+             var _ = new Map(-10, 10);
+        });
+        ExpectThrow<ArgumentException>(()=>{
+             var _ = new Map(-10, -10);
+        });
+        var _ = new Map(10, 10);
+    }
+
+
+    static void ExpectThrow<E>(Action fn)
+    where E:Exception 
+    {
+        try {
+            fn();
+            throw new InvalidOperationException("code must throw exception");   
+        }
+        catch (E) {
+            // ok
+        }
     }
 }
