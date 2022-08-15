@@ -13,15 +13,15 @@ public class Maze
 
     private Cell[,] cells, buf;
     private int width = 64, heigth = 64;
-    private int steps_to_generate = 1;
-
+    public int steps_to_generate = 2;
+    public int birth_treshold = 4;
+    public int death_treshold = 5;
     public Maze(int w, int h)
     {
         width = w;
         heigth = h;
         buf = new Cell[w, h];
         cells = new Cell[w, h];
-
         Generate(w / 2, h / 2);
     }
 
@@ -37,11 +37,8 @@ public class Maze
 
     private void GenerateStep()
     {
-
-        
         foreach (var (x, y, cell) in Cells())
         {
-            buf[x, y] = Cell.Empty;
             var n = Neighbours(x, y)
                     .Count(n => n == Cell.Wall);
 
@@ -52,6 +49,10 @@ public class Maze
             else if (cell == Cell.Empty && n > 4)
             {
                 buf[x, y] = Cell.Wall;
+            }
+            else
+            {
+                buf[x, y] = cell;
             }
         }
         var keeper = cells;
